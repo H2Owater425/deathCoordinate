@@ -1,0 +1,10 @@
+name: DeathCoordinate
+version: '${project.version}'
+main: vg.h2o.deathcoordinate.DeathCoordinate
+api-version: 1.19
+prefix: DeathCoordinate
+commands:
+  removeItemDespawnTimer:
+    description: Removes itemDespawnTimer
+  ridt:
+    description: Removes itemDespawnTimer
