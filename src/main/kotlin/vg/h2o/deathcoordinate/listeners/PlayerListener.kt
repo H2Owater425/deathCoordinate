@@ -15,6 +15,6 @@ object PlayerListener : Listener {
 
     @EventHandler
     fun onDeath(e: PlayerDeathEvent) {
-     ItemDespawnTimerHandler.getTimer(e.player).onDeath()
+        ItemDespawnTimerHandler.getTimer(e.player).onDeath()
     }
 }
