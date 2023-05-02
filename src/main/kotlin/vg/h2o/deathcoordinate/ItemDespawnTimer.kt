@@ -74,9 +74,9 @@ class ItemDespawnTimer {
             return
         }
 
-        if (player.world != lastDeathLocation.world) return
+        if (player.world != lastDeathLocation.world || player.isDead) return
 
-        if (!player.isDead && player.location.distance(lastDeathLocation) <= 1) {
+        if (player.location.distance(lastDeathLocation) <= 1) {
             player.playSound(player, Sound.ENTITY_PLAYER_LEVELUP, 10f, 1f)
             player.sendActionBar(Component.text("§a아이템 수복 성공"))
             remainSeconds = 0
@@ -100,8 +100,7 @@ class ItemDespawnTimer {
         if (index == 8) index = 0
 
         player.sendActionBar(Component.text {
-            it.color(TextColor.color(0, 255, 0))
-            it.content(ARROWS[index])
+            it.content("${lastDeathLocation.distance(player.location).toInt()}m §${if(index == 0) 'a' else 'c'} (${ARROWS[index]})")
         })
     }
 
