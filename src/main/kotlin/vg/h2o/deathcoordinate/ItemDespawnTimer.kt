@@ -1,12 +1,14 @@
 package vg.h2o.deathcoordinate
 
 import net.kyori.adventure.text.Component
+import net.kyori.adventure.text.format.TextColor
 import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.Sound
 import org.bukkit.boss.BarColor
 import org.bukkit.boss.BarStyle
 import org.bukkit.entity.Player
+import kotlin.math.roundToInt
 
 class ItemDespawnTimer {
 
@@ -77,7 +79,31 @@ class ItemDespawnTimer {
             player.playSound(player, Sound.ENTITY_ITEM_BREAK, 10f, 1f)
             player.sendActionBar(Component.text("§c아이템 수복 실패"))
             return
-
         }
+
+        val direction = lastDeathLocation.clone().subtract(player.location).toVector()
+        var angle = player.eyeLocation.clone().setDirection(direction).yaw
+
+        if (angle < 0) {
+            angle += 360
+        }
+
+        angle -= player.location.yaw
+
+        if (angle < 0) {
+            angle += 360
+        }
+
+        var index = ((angle / 45) % 8).roundToInt()
+        if (index == 8) index = 0
+
+        player.sendActionBar(Component.text {
+            it.color(TextColor.color(0, 255, 0))
+            it.content(ARROWS[index])
+        })
+    }
+
+    companion object {
+        private val ARROWS = listOf("↑", "↗", "→", "↘", "↓", "↙", "←", "↖")
     }
 }

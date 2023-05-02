@@ -9,11 +9,11 @@ object ItemDespawnTimerHandler {
     private val timers = mutableMapOf<UUID, ItemDespawnTimer>()
     private var tick = 0
 
-    fun init(player: Player) {
-        timers.getOrPut(player.uniqueId) { ItemDespawnTimer() }.changePlayer(player)
+    fun init(player: Player) = timers.getOrPut(player.uniqueId) { ItemDespawnTimer() }.apply {
+        changePlayer(player)
     }
 
-    fun getTimer(player: Player) = timers[player.uniqueId]!!
+    fun getTimer(player: Player) = timers[player.uniqueId] ?: init(player)
 
     fun tick() {
         tick = (tick + 1) % 20
