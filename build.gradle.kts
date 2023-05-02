@@ -1,6 +1,6 @@
 plugins {
     kotlin("jvm") version "1.8.21"
-    id("com.github.johnrengelman.shadow") version "7.1.2"
+    id("io.papermc.paperweight.userdev") version "1.5.5"
 }
 
 group = "vg.h2o"
@@ -19,7 +19,13 @@ repositories {
 }
 
 dependencies {
-    compileOnly("io.papermc.paper:paper-api:1.19.4-R0.1-SNAPSHOT")
+    compileOnly("io.github.monun:kommand-api:3.1.3")
+
+    paperweight.paperDevBundle("1.19.4-R0.1-SNAPSHOT")
+}
+
+sourceSets.main {
+    java.srcDirs("build/generated/ksp/main/kotlin")
 }
 
 val targetJavaVersion = 17
@@ -34,7 +40,7 @@ java {
 
 tasks {
     withType<JavaCompile>().configureEach {
-        if(targetJavaVersion >= 10 || JavaVersion.current().isJava10Compatible) {
+        if (targetJavaVersion >= 10 || JavaVersion.current().isJava10Compatible) {
             options.release.set(targetJavaVersion)
         }
     }
@@ -48,13 +54,7 @@ tasks {
         }
     }
 
-    jar {
-        dependsOn("shadowJar")
-    }
-
-    shadowJar {
-        project.configurations.implementation.get().isCanBeResolved = true
-        configurations = listOf(project.configurations.implementation.get())
-        minimize()
+    assemble {
+        dependsOn(reobfJar)
     }
 }
