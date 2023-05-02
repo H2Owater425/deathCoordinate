@@ -2,6 +2,7 @@ package vg.h2o.dimibug
 
 import net.kyori.adventure.bossbar.BossBar
 import net.kyori.adventure.text.Component
+import net.kyori.adventure.text.Component.text
 import net.kyori.adventure.text.format.NamedTextColor
 import org.bukkit.Location
 import org.bukkit.Sound
@@ -35,10 +36,10 @@ class ItemDespawnTimer {
                 "world_the_end" -> NamedTextColor.LIGHT_PURPLE
                 else -> NamedTextColor.GREEN
             }
-            return Component.text("아이템 디스폰까지 약 ")
-                    .append(Component.text(remainSeconds, NamedTextColor.LIGHT_PURPLE))
-                    .append(Component.text("초 "))
-                    .append(Component.text("(${lastDeathLocation.blockX}, ${lastDeathLocation.blockY}, ${lastDeathLocation.blockZ})", worldColor))
+            return text("아이템 디스폰까지 약 ")
+                    .append(text(remainSeconds, NamedTextColor.LIGHT_PURPLE))
+                    .append(text("초 "))
+                    .append(text("(${lastDeathLocation.blockX}, ${lastDeathLocation.blockY}, ${lastDeathLocation.blockZ})", worldColor))
         }
 
     fun onDeath() {
@@ -68,7 +69,7 @@ class ItemDespawnTimer {
 
         if (tick == 0 && --remainSeconds == 0) {
             player.playSound(player, Sound.ENTITY_ITEM_BREAK, 10f, 1f)
-            player.sendActionBar(Component.text("아이템 수복 실패", NamedTextColor.RED))
+            player.sendActionBar(text("아이템 수복 실패", NamedTextColor.RED))
             return
         }
 
@@ -76,7 +77,7 @@ class ItemDespawnTimer {
 
         if (player.location.distance(lastDeathLocation) <= 1) {
             player.playSound(player, Sound.ENTITY_PLAYER_LEVELUP, 10f, 1f)
-            player.sendActionBar(Component.text("아이템 수복 성공", NamedTextColor.GREEN))
+            player.sendActionBar(text("아이템 수복 성공", NamedTextColor.GREEN))
             remainSeconds = 0
             return
         }
@@ -97,8 +98,8 @@ class ItemDespawnTimer {
         var index = ((angle / 45) % 8).roundToInt()
         if (index == 8) index = 0
 
-        val text = Component.text("${"%.1f".format(lastDeathLocation.distance(player.location))}m ")
-                .append(Component.text(ARROWS[index], if (index == 0) NamedTextColor.GREEN else NamedTextColor.RED))
+        val text = text("${"%.1f".format(lastDeathLocation.distance(player.location))}m ")
+                .append(text(ARROWS[index], if (index == 0) NamedTextColor.GREEN else NamedTextColor.RED))
         player.sendActionBar(text)
     }
 

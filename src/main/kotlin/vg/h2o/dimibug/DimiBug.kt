@@ -3,7 +3,7 @@ package vg.h2o.dimibug
 import io.github.monun.kommand.StringType
 import io.github.monun.kommand.getValue
 import io.github.monun.kommand.kommand
-import net.kyori.adventure.text.Component
+import net.kyori.adventure.text.Component.text
 import net.kyori.adventure.text.format.NamedTextColor
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
@@ -40,7 +40,7 @@ class DimiBug : JavaPlugin() {
                         "아이템 디스폰 타이머가 존재하지 않습니다." to NamedTextColor.RED
                     }
 
-                    sender.sendMessage(Component.text(message, color))
+                    sender.sendMessage(text(message, color))
                 }
             }
 
@@ -56,9 +56,9 @@ class DimiBug : JavaPlugin() {
                         PlayerNameHandler.rename(player, name)
 
                         player.sendMessage(
-                                Component.text("당신의 이름은 이제 ")
-                                        .append(Component.text(name, NamedTextColor.GREEN))
-                                        .append(Component.text("입니다"))
+                                text("당신의 이름은 이제 ")
+                                        .append(text(name, NamedTextColor.GREEN))
+                                        .append(text("입니다"))
                         )
                     }
                 }
@@ -75,7 +75,7 @@ class DimiBug : JavaPlugin() {
                     executes {
                         val name: String by it
 
-                        sender.sendMessage(Component.text(PlayerNameHandler.getReverseName(name).toString()))
+                        sender.sendMessage(text(PlayerNameHandler.getReverseName(name).toString()))
                     }
                 }
             }
