@@ -59,15 +59,11 @@ object PlayerNameHandler {
         val gameProfile = (player as CraftPlayer).profile
         nameField.set(gameProfile, name)
 
-        val component = Component.text(name)
-
-        player.playerListName(component)
-        player.displayName(component)
-
+        player.displayName(Component.text(name))
 
         Bukkit.getOnlinePlayers().forEach {
-            it.hidePlayer(DimiBug.instance, player)
-            it.showPlayer(DimiBug.instance, player)
+            it.hidePlayer(plugin, player)
+            it.showPlayer(plugin, player)
         }
     }
 
