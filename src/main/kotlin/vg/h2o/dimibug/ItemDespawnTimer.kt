@@ -98,9 +98,7 @@ class ItemDespawnTimer {
         var index = ((angle / 45) % 8).roundToInt()
         if (index == 8) index = 0
 
-        player.sendActionBar(Component.text {
-            it.content("${lastDeathLocation.distance(player.location).toInt()}m §${if(index == 0) 'a' else 'c'} (${ARROWS[index]})")
-        })
+        player.sendActionBar(Component.text("${lastDeathLocation.distance(player.location).toInt()}m §${if (index == 0) 'a' else 'c'} (${ARROWS[index]})"))
     }
 
     companion object {
