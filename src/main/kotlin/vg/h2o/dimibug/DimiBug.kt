@@ -4,6 +4,7 @@ import io.github.monun.kommand.StringType
 import io.github.monun.kommand.getValue
 import io.github.monun.kommand.kommand
 import net.kyori.adventure.text.Component
+import net.kyori.adventure.text.format.NamedTextColor
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import org.bukkit.plugin.java.JavaPlugin
@@ -34,9 +35,9 @@ class DimiBug : JavaPlugin() {
                 executes {
                     val sender = sender
                     val (message, color) = if (ItemDespawnTimerHandler.getTimer(player).end()) {
-                        "아이템 디스폰 타이머가 제거되었습니다." to TextColors.GREEN
+                        "아이템 디스폰 타이머가 제거되었습니다." to NamedTextColor.GREEN
                     } else {
-                        "아이템 디스폰 타이머가 존재하지 않습니다." to TextColors.RED
+                        "아이템 디스폰 타이머가 존재하지 않습니다." to NamedTextColor.RED
                     }
 
                     sender.sendMessage(Component.text(message, color))
@@ -56,7 +57,7 @@ class DimiBug : JavaPlugin() {
 
                         player.sendMessage(
                                 Component.text("당신의 이름은 이제 ")
-                                        .append(Component.text(name, TextColors.GREEN))
+                                        .append(Component.text(name, NamedTextColor.GREEN))
                                         .append(Component.text("입니다"))
                         )
                     }

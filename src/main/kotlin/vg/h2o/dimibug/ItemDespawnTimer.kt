@@ -1,6 +1,7 @@
 package vg.h2o.dimibug
 
 import net.kyori.adventure.text.Component
+import net.kyori.adventure.text.format.NamedTextColor
 import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.Sound
@@ -69,7 +70,7 @@ class ItemDespawnTimer {
 
         if (tick == 0 && --remainSeconds == 0) {
             player.playSound(player, Sound.ENTITY_ITEM_BREAK, 10f, 1f)
-            player.sendActionBar(Component.text("아이템 수복 실패", TextColors.RED))
+            player.sendActionBar(Component.text("아이템 수복 실패", NamedTextColor.RED))
             return
         }
 
@@ -77,7 +78,7 @@ class ItemDespawnTimer {
 
         if (player.location.distance(lastDeathLocation) <= 1) {
             player.playSound(player, Sound.ENTITY_PLAYER_LEVELUP, 10f, 1f)
-            player.sendActionBar(Component.text("아이템 수복 성공", TextColors.GREEN))
+            player.sendActionBar(Component.text("아이템 수복 성공", NamedTextColor.GREEN))
             remainSeconds = 0
             return
         }
@@ -99,7 +100,7 @@ class ItemDespawnTimer {
         if (index == 8) index = 0
 
         val text = Component.text("${"%.1f".format(lastDeathLocation.distance(player.location))}m ")
-                .append(Component.text(ARROWS[index], if (index == 0) TextColors.GREEN else TextColors.RED))
+                .append(Component.text(ARROWS[index], if (index == 0) NamedTextColor.GREEN else NamedTextColor.RED))
         player.sendActionBar(text)
     }
 
