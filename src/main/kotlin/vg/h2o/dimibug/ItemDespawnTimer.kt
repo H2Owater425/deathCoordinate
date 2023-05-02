@@ -1,7 +1,6 @@
-package vg.h2o.deathcoordinate
+package vg.h2o.dimibug
 
 import net.kyori.adventure.text.Component
-import net.kyori.adventure.text.format.TextColor
 import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.Sound
