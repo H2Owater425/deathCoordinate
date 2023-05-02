@@ -68,16 +68,18 @@ class ItemDespawnTimer {
     fun tick(tick: Int) {
         if (remainSeconds == 0) return
 
-        if (!player.isDead && player.world == lastDeathLocation.world && player.location.distance(lastDeathLocation) <= 1) {
-            player.playSound(player, Sound.ENTITY_PLAYER_LEVELUP, 10f, 1f)
-            player.sendActionBar(Component.text("§a아이템 수복 성공"))
-            remainSeconds = 0
-            return
-        }
-
         if (tick == 0 && --remainSeconds == 0) {
             player.playSound(player, Sound.ENTITY_ITEM_BREAK, 10f, 1f)
             player.sendActionBar(Component.text("§c아이템 수복 실패"))
+            return
+        }
+
+        if (player.world != lastDeathLocation.world) return
+
+        if (!player.isDead && player.location.distance(lastDeathLocation) <= 1) {
+            player.playSound(player, Sound.ENTITY_PLAYER_LEVELUP, 10f, 1f)
+            player.sendActionBar(Component.text("§a아이템 수복 성공"))
+            remainSeconds = 0
             return
         }
 
