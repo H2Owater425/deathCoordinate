@@ -33,13 +33,13 @@ class DimiBug : JavaPlugin() {
 
                 executes {
                     val sender = sender
-                    val message = if (ItemDespawnTimerHandler.getTimer(player).end()) {
-                        "§a아이템 디스폰 타이머가 제거되었습니다."
+                    val (message, color) = if (ItemDespawnTimerHandler.getTimer(player).end()) {
+                        "아이템 디스폰 타이머가 제거되었습니다." to TextColors.GREEN
                     } else {
-                        "§c아이템 디스폰 타이머가 존재하지 않습니다."
+                        "아이템 디스폰 타이머가 존재하지 않습니다." to TextColors.RED
                     }
 
-                    sender.sendMessage(Component.text(message))
+                    sender.sendMessage(Component.text(message, color))
                 }
             }
 
@@ -54,7 +54,11 @@ class DimiBug : JavaPlugin() {
 
                         PlayerNameHandler.rename(player, name)
 
-                        player.sendMessage(Component.text("당신의 이름은 이제 §a${name}§r입니다"))
+                        player.sendMessage(
+                                Component.text("당신의 이름은 이제 ")
+                                        .append(Component.text(name, TextColors.GREEN))
+                                        .append(Component.text("입니다"))
+                        )
                     }
                 }
             }

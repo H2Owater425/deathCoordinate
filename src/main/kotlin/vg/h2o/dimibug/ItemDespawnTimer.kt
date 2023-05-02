@@ -69,7 +69,7 @@ class ItemDespawnTimer {
 
         if (tick == 0 && --remainSeconds == 0) {
             player.playSound(player, Sound.ENTITY_ITEM_BREAK, 10f, 1f)
-            player.sendActionBar(Component.text("§c아이템 수복 실패"))
+            player.sendActionBar(Component.text("아이템 수복 실패", TextColors.RED))
             return
         }
 
@@ -77,7 +77,7 @@ class ItemDespawnTimer {
 
         if (player.location.distance(lastDeathLocation) <= 1) {
             player.playSound(player, Sound.ENTITY_PLAYER_LEVELUP, 10f, 1f)
-            player.sendActionBar(Component.text("§a아이템 수복 성공"))
+            player.sendActionBar(Component.text("아이템 수복 성공", TextColors.GREEN))
             remainSeconds = 0
             return
         }
@@ -98,7 +98,9 @@ class ItemDespawnTimer {
         var index = ((angle / 45) % 8).roundToInt()
         if (index == 8) index = 0
 
-        player.sendActionBar(Component.text("${lastDeathLocation.distance(player.location).toInt()}m §${if (index == 0) 'a' else 'c'} (${ARROWS[index]})"))
+        val text = Component.text("${"%.1f".format(lastDeathLocation.distance(player.location))}m ")
+                .append(Component.text(ARROWS[index], if (index == 0) TextColors.GREEN else TextColors.RED))
+        player.sendActionBar(text)
     }
 
     companion object {
