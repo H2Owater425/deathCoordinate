@@ -1,15 +1,15 @@
-package vg.h2o.deathcoordinate
+package vg.h2o.dimibug
 
 import org.bukkit.Bukkit
 import org.bukkit.plugin.java.JavaPlugin
-import vg.h2o.deathcoordinate.commands.RemoveItemDisplayTimerCommand
-import vg.h2o.deathcoordinate.handlers.ItemDespawnTimerHandler
-import vg.h2o.deathcoordinate.listeners.PlayerListener
+import vg.h2o.dimibug.commands.RemoveItemDisplayTimerCommand
+import vg.h2o.dimibug.handlers.ItemDespawnTimerHandler
+import vg.h2o.dimibug.listeners.PlayerListener
 
-class DeathCoordinate : JavaPlugin() {
+class DimiBug : JavaPlugin() {
 
     override fun onEnable() {
-        logger.info("DeathCoordinate is running")
+        logger.info("DimiBug is running")
 
         Bukkit.getPluginManager().registerEvents(PlayerListener, this)
 
@@ -21,6 +21,6 @@ class DeathCoordinate : JavaPlugin() {
     }
 
     override fun onDisable() {
-        logger.info("DeathCoordinate is stopped")
+        logger.info("DimiBug is stopped")
     }
 }

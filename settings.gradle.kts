@@ -1,1 +1,1 @@
-rootProject.name = "deathCoordinate"
+rootProject.name = "dimiBug"

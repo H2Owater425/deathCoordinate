@@ -1,6 +1,6 @@
-name: deathCoordinate
+name: dimibug
 version: '${version}'
-main: vg.h2o.deathcoordinate.DeathCoordinate
+main: vg.h2o.dimibug.Dimibug
 api-version: 1.19
 
 commands:
