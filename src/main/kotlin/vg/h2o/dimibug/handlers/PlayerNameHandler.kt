@@ -1,7 +1,7 @@
 package vg.h2o.dimibug.handlers
 
 import com.mojang.authlib.GameProfile
-import net.kyori.adventure.text.Component
+import net.kyori.adventure.text.Component.text
 import org.bukkit.Bukkit
 import org.bukkit.configuration.file.YamlConfiguration
 import org.bukkit.craftbukkit.v1_19_R3.entity.CraftPlayer
@@ -59,15 +59,11 @@ object PlayerNameHandler {
         val gameProfile = (player as CraftPlayer).profile
         nameField.set(gameProfile, name)
 
-        val component = Component.text(name)
-
-        player.playerListName(component)
-        player.displayName(component)
-
+        player.displayName(text(name))
 
         Bukkit.getOnlinePlayers().forEach {
-            it.hidePlayer(DimiBug.instance, player)
-            it.showPlayer(DimiBug.instance, player)
+            it.hidePlayer(plugin, player)
+            it.showPlayer(plugin, player)
         }
     }
 

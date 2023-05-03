@@ -1,11 +1,11 @@
 package vg.h2o.dimibug
 
+import net.kyori.adventure.bossbar.BossBar
 import net.kyori.adventure.text.Component
-import org.bukkit.Bukkit
+import net.kyori.adventure.text.Component.text
+import net.kyori.adventure.text.format.NamedTextColor
 import org.bukkit.Location
 import org.bukkit.Sound
-import org.bukkit.boss.BarColor
-import org.bukkit.boss.BarStyle
 import org.bukkit.entity.Player
 import kotlin.math.roundToInt
 
@@ -16,45 +16,45 @@ class ItemDespawnTimer {
             field = value
 
             if (value > 0) {
-                timer.progress = value.toDouble() / DESPAWN_SECONDS
-                timer.setTitle(title)
+                bossBar.progress(value.toFloat() / DESPAWN_SECONDS)
+                bossBar.name(title)
             } else {
-                timer.removeAll()
+                player.hideBossBar(bossBar)
             }
         }
 
     private lateinit var player: Player
 
-    private val timer = Bukkit.getServer().createBossBar(null, BarColor.RED, BarStyle.SOLID).apply {
-        progress = 1.0
-    }
+    private val bossBar = BossBar.bossBar(Component.empty(), 0f, BossBar.Color.RED, BossBar.Overlay.PROGRESS)
 
     private lateinit var lastDeathLocation: Location
 
-    private val title: String
+    private val title: Component
         get() {
             val worldColor = when (lastDeathLocation.world.name) {
-                "world_nether" -> "§c"
-                "world_the_end" -> "§d"
-                else -> "§a"
+                "world_nether" -> NamedTextColor.RED
+                "world_the_end" -> NamedTextColor.LIGHT_PURPLE
+                else -> NamedTextColor.GREEN
             }
-
-            return "아이템 디스폰까지 약 §b$remainSeconds§f초 $worldColor(${lastDeathLocation.blockX}, ${lastDeathLocation.blockY}, ${lastDeathLocation.blockZ})"
+            return text("아이템 디스폰까지 약 ")
+                    .append(text(remainSeconds, NamedTextColor.LIGHT_PURPLE))
+                    .append(text("초 "))
+                    .append(text("(${lastDeathLocation.blockX}, ${lastDeathLocation.blockY}, ${lastDeathLocation.blockZ})", worldColor))
         }
 
     fun onDeath() {
         lastDeathLocation = player.location
         remainSeconds = DESPAWN_SECONDS
-        timer.addPlayer(player)
+        player.showBossBar(bossBar)
     }
 
     fun changePlayer(player: Player) {
-        this.player = player
-
         if (remainSeconds > 0) {
-            timer.removeAll()
-            timer.addPlayer(player)
+            this.player.hideBossBar(bossBar)
+            player.showBossBar(bossBar)
         }
+
+        this.player = player
     }
 
     fun end() = if (remainSeconds > 0) {
@@ -69,7 +69,7 @@ class ItemDespawnTimer {
 
         if (tick == 0 && --remainSeconds == 0) {
             player.playSound(player, Sound.ENTITY_ITEM_BREAK, 10f, 1f)
-            player.sendActionBar(Component.text("§c아이템 수복 실패"))
+            player.sendActionBar(text("아이템 수복 실패", NamedTextColor.RED))
             return
         }
 
@@ -77,7 +77,7 @@ class ItemDespawnTimer {
 
         if (player.location.distance(lastDeathLocation) <= 1) {
             player.playSound(player, Sound.ENTITY_PLAYER_LEVELUP, 10f, 1f)
-            player.sendActionBar(Component.text("§a아이템 수복 성공"))
+            player.sendActionBar(text("아이템 수복 성공", NamedTextColor.GREEN))
             remainSeconds = 0
             return
         }
@@ -98,7 +98,9 @@ class ItemDespawnTimer {
         var index = ((angle / 45) % 8).roundToInt()
         if (index == 8) index = 0
 
-        player.sendActionBar(Component.text("${lastDeathLocation.distance(player.location).toInt()}m §${if (index == 0) 'a' else 'c'} (${ARROWS[index]})"))
+        val text = text("${"%.1f".format(lastDeathLocation.distance(player.location))}m ")
+                .append(text(ARROWS[index], if (index == 0) NamedTextColor.GREEN else NamedTextColor.RED))
+        player.sendActionBar(text)
     }
 
     companion object {
