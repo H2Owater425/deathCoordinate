@@ -3,6 +3,7 @@ package vg.h2o.dimibug
 import io.github.monun.kommand.StringType
 import io.github.monun.kommand.getValue
 import io.github.monun.kommand.kommand
+import net.kyori.adventure.text.Component.empty
 import net.kyori.adventure.text.Component.text
 import net.kyori.adventure.text.format.NamedTextColor
 import org.bukkit.Bukkit
@@ -28,7 +29,7 @@ class DimiBug : JavaPlugin() {
         Bukkit.getPluginManager().registerEvents(PlayerListener, this)
 
         kommand {
-            "removeItemDespawnTimer"("ridt") {
+            "removeitemdespawntimer"("ridt") {
 
                 requires { isPlayer }
 
@@ -64,9 +65,8 @@ class DimiBug : JavaPlugin() {
                 }
             }
 
-            "getrealname" {
-                requires { isOp }
 
+            "getrealname" {
                 then("name" to string(StringType.GREEDY_PHRASE).apply {
                     suggests {
                         suggest(Bukkit.getOnlinePlayers().map { p -> p.name })
@@ -75,7 +75,11 @@ class DimiBug : JavaPlugin() {
                     executes {
                         val name: String by it
 
-                        sender.sendMessage(text(PlayerNameHandler.getReverseName(name).toString()))
+                        sender.sendMessage(
+                            empty().append(text(name, NamedTextColor.GOLD))
+                                .append(text("의 원래 이름은 "))
+                                .append(text(PlayerNameHandler.getReverseName(name).toString(), NamedTextColor.GREEN))
+                                .append(text("입니다.")))
                     }
                 }
             }
