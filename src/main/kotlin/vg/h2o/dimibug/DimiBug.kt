@@ -58,6 +58,13 @@ class DimiBug : JavaPlugin() {
 
                         PlayerNameHandler.rename(player, name)
 
+
+                        sender.sendMessage(
+                            empty().append(text(name, NamedTextColor.GOLD))
+                                .append(text("의 이름을 "))
+                                .append(text(name, NamedTextColor.GREEN))
+                                .append(text("(으)로 바꿨습니다")))
+
                         player.sendMessage(
                                 text("당신의 이름은 이제 ")
                                         .append(text(name, NamedTextColor.GREEN))
