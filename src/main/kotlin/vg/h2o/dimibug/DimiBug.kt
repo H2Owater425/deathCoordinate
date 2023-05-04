@@ -5,6 +5,8 @@ import io.github.monun.kommand.getValue
 import io.github.monun.kommand.kommand
 import net.kyori.adventure.text.Component.empty
 import net.kyori.adventure.text.Component.text
+import net.kyori.adventure.text.event.ClickEvent
+import net.kyori.adventure.text.event.HoverEvent
 import net.kyori.adventure.text.format.NamedTextColor
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
@@ -74,11 +76,13 @@ class DimiBug : JavaPlugin() {
                 }) {
                     executes {
                         val name: String by it
+                        val originName: String = PlayerNameHandler.getReverseName(name).toString()
 
                         sender.sendMessage(
                             empty().append(text(name, NamedTextColor.GOLD))
                                 .append(text("의 원래 이름은 "))
-                                .append(text(PlayerNameHandler.getReverseName(name).toString(), NamedTextColor.GREEN))
+                                .append(text(originName, NamedTextColor.GREEN).clickEvent(
+                                    ClickEvent.copyToClipboard(originName)).hoverEvent(HoverEvent.showText(text("클립보드에 복사하려면 클릭"))))
                                 .append(text("입니다.")))
                     }
                 }
