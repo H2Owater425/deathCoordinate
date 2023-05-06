@@ -58,12 +58,11 @@ class DimiBug : JavaPlugin() {
 
                         PlayerNameHandler.rename(player, name)
 
-
                         sender.sendMessage(
-                            empty().append(text(name, NamedTextColor.GOLD))
-                                .append(text("의 이름을 "))
-                                .append(text(name, NamedTextColor.GREEN))
-                                .append(text("(으)로 바꿨습니다")))
+                                empty().append(text(name, NamedTextColor.GOLD))
+                                        .append(text("의 이름을 "))
+                                        .append(text(name, NamedTextColor.GREEN))
+                                        .append(text("(으)로 바꿨습니다")))
 
                         player.sendMessage(
                                 text("당신의 이름은 이제 ")
@@ -86,11 +85,11 @@ class DimiBug : JavaPlugin() {
                         val originName: String = PlayerNameHandler.getReverseName(name).toString()
 
                         sender.sendMessage(
-                            empty().append(text(name, NamedTextColor.GOLD))
-                                .append(text("의 원래 이름은 "))
-                                .append(text(originName, NamedTextColor.GREEN).clickEvent(
-                                    ClickEvent.copyToClipboard(originName)).hoverEvent(HoverEvent.showText(text("클립보드에 복사하려면 클릭"))))
-                                .append(text("입니다.")))
+                                empty().append(text(name, NamedTextColor.GOLD))
+                                        .append(text("의 원래 이름은 "))
+                                        .append(text(originName, NamedTextColor.GREEN).clickEvent(
+                                                ClickEvent.copyToClipboard(originName)).hoverEvent(HoverEvent.showText(text("클립보드에 복사하려면 클릭"))))
+                                        .append(text("입니다.")))
                     }
                 }
             }
