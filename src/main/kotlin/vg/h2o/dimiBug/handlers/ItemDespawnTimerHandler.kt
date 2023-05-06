@@ -1,7 +1,7 @@
-package vg.h2o.dimibug.handlers
+package vg.h2o.dimiBug.handlers
 
 import org.bukkit.entity.Player
-import vg.h2o.dimibug.ItemDespawnTimer
+import vg.h2o.dimiBug.ItemDespawnTimer
 import java.util.*
 
 object ItemDespawnTimerHandler {

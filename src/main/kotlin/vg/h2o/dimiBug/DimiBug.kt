@@ -1,4 +1,4 @@
-package vg.h2o.dimibug
+package vg.h2o.dimiBug
 
 import io.github.monun.kommand.StringType
 import io.github.monun.kommand.getValue
@@ -11,9 +11,9 @@ import net.kyori.adventure.text.format.NamedTextColor
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import org.bukkit.plugin.java.JavaPlugin
-import vg.h2o.dimibug.handlers.ItemDespawnTimerHandler
-import vg.h2o.dimibug.handlers.PlayerNameHandler
-import vg.h2o.dimibug.listeners.PlayerListener
+import vg.h2o.dimiBug.handlers.ItemDespawnTimerHandler
+import vg.h2o.dimiBug.handlers.PlayerNameHandler
+import vg.h2o.dimiBug.listeners.PlayerListener
 
 class DimiBug : JavaPlugin() {
 
@@ -56,14 +56,13 @@ class DimiBug : JavaPlugin() {
                         val player: Player by it
                         val name: String by it
 
-                        PlayerNameHandler.rename(player, name)
-
-
                         sender.sendMessage(
-                            empty().append(text(name, NamedTextColor.GOLD))
+                            empty().append(text(player.name, NamedTextColor.GOLD))
                                 .append(text("의 이름을 "))
                                 .append(text(name, NamedTextColor.GREEN))
                                 .append(text("(으)로 바꿨습니다")))
+
+                        PlayerNameHandler.rename(player, name)
 
                         player.sendMessage(
                                 text("당신의 이름은 이제 ")

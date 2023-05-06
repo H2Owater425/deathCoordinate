@@ -1,4 +1,4 @@
-package vg.h2o.dimibug.handlers
+package vg.h2o.dimiBug.handlers
 
 import com.mojang.authlib.GameProfile
 import net.kyori.adventure.text.Component.text
@@ -6,7 +6,7 @@ import org.bukkit.Bukkit
 import org.bukkit.configuration.file.YamlConfiguration
 import org.bukkit.craftbukkit.v1_19_R3.entity.CraftPlayer
 import org.bukkit.entity.Player
-import vg.h2o.dimibug.DimiBug
+import vg.h2o.dimiBug.DimiBug
 import java.io.File
 
 object PlayerNameHandler {
