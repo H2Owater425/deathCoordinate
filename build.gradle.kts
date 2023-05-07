@@ -58,4 +58,8 @@ tasks {
     assemble {
         dependsOn(reobfJar)
     }
+
+    runServer {
+        jvmArgs("-javaagent:../asm/build/libs/asm-0.1.0.jar")
+    }
 }

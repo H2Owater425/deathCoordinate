@@ -1,4 +1,4 @@
-package vg.h2o.dimiBug
+package vg.h2o.dimibug
 
 import net.kyori.adventure.bossbar.BossBar
 import net.kyori.adventure.text.Component

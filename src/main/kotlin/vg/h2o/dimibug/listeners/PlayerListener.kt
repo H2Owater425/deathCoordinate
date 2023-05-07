@@ -1,11 +1,11 @@
-package vg.h2o.dimiBug.listeners
+package vg.h2o.dimibug.listeners
 
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.entity.PlayerDeathEvent
 import org.bukkit.event.player.PlayerJoinEvent
-import vg.h2o.dimiBug.handlers.ItemDespawnTimerHandler
-import vg.h2o.dimiBug.handlers.PlayerNameHandler
+import vg.h2o.dimibug.handlers.ItemDespawnTimerHandler
+import vg.h2o.dimibug.handlers.PlayerNameHandler
 
 object PlayerListener : Listener {
 

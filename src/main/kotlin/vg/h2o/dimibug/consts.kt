@@ -1,3 +1,3 @@
-package vg.h2o.dimiBug
+package vg.h2o.dimibug
 
 const val DESPAWN_SECONDS = 300
