@@ -60,6 +60,7 @@ object PlayerNameHandler {
         nameField.set(gameProfile, name)
 
         player.displayName(text(name))
+        player.playerListName(text(name))
 
         Bukkit.getOnlinePlayers().forEach {
             it.hidePlayer(plugin, player)

@@ -5,10 +5,11 @@ import io.github.monun.kommand.getValue
 import io.github.monun.kommand.kommand
 import net.kyori.adventure.text.Component.empty
 import net.kyori.adventure.text.Component.text
-import net.kyori.adventure.text.event.ClickEvent
-import net.kyori.adventure.text.event.HoverEvent
 import net.kyori.adventure.text.format.NamedTextColor
+import net.minecraft.commands.arguments.selector.EntitySelector
+import net.minecraft.server.level.ServerPlayer
 import org.bukkit.Bukkit
+import org.bukkit.craftbukkit.v1_19_R3.entity.CraftPlayer
 import org.bukkit.entity.Player
 import org.bukkit.plugin.java.JavaPlugin
 import vg.h2o.dimibug.handlers.ItemDespawnTimerHandler
@@ -19,10 +20,27 @@ class DimiBug : JavaPlugin() {
 
     companion object {
         lateinit var instance: DimiBug
+
+        @JvmStatic
+        fun findPlayer(name: String?): List<ServerPlayer>? {
+            name ?: return null
+
+            val originalName = PlayerNameHandler.getReverseName(name) ?: return null
+
+            val player = Bukkit.getPlayer(originalName) ?: return null
+
+            return listOf((player as CraftPlayer).handle)
+        }
     }
 
     init {
         instance = this
+
+        val method = javaClass.getDeclaredMethod("findPlayer", String::class.java)
+
+        EntitySelector::class.java.getDeclaredField("dimibug").apply {
+            set(null, method)
+        }
     }
 
     override fun onEnable() {
@@ -56,40 +74,20 @@ class DimiBug : JavaPlugin() {
                         val player: Player by it
                         val name: String by it
 
-                        PlayerNameHandler.rename(player, name)
-
                         sender.sendMessage(
-                                empty().append(text(name, NamedTextColor.GOLD))
-                                        .append(text("의 이름을 "))
-                                        .append(text(name, NamedTextColor.GREEN))
-                                        .append(text("(으)로 바꿨습니다")))
+                            empty().append(text(player.name, NamedTextColor.GOLD))
+                                .append(text("의 이름을 "))
+                                .append(text(name, NamedTextColor.GREEN))
+                                .append(text("(으)로 바꿨습니다"))
+                        )
 
                         player.sendMessage(
-                                text("당신의 이름은 이제 ")
-                                        .append(text(name, NamedTextColor.GREEN))
-                                        .append(text("입니다"))
+                            text("당신의 이름은 이제 ")
+                                .append(text(name, NamedTextColor.GREEN))
+                                .append(text("입니다"))
                         )
-                    }
-                }
-            }
 
-
-            "getrealname" {
-                then("name" to string(StringType.GREEDY_PHRASE).apply {
-                    suggests {
-                        suggest(Bukkit.getOnlinePlayers().map { p -> p.name })
-                    }
-                }) {
-                    executes {
-                        val name: String by it
-                        val originName: String = PlayerNameHandler.getReverseName(name).toString()
-
-                        sender.sendMessage(
-                                empty().append(text(name, NamedTextColor.GOLD))
-                                        .append(text("의 원래 이름은 "))
-                                        .append(text(originName, NamedTextColor.GREEN).clickEvent(
-                                                ClickEvent.copyToClipboard(originName)).hoverEvent(HoverEvent.showText(text("클립보드에 복사하려면 클릭"))))
-                                        .append(text("입니다.")))
+                        PlayerNameHandler.rename(player, name)
                     }
                 }
             }
