@@ -16,7 +16,6 @@ object CompassHandler {
     private val compasses = mutableMapOf<Player, BukkitTask>()
 
     fun delete(player: Player) {
-        println("$player deleted")
         compasses.remove(player)?.cancel()
     }
 
