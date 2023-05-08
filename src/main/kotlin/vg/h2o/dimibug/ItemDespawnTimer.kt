@@ -7,7 +7,6 @@ import net.kyori.adventure.text.format.NamedTextColor
 import org.bukkit.Location
 import org.bukkit.Sound
 import org.bukkit.entity.Player
-import kotlin.math.roundToInt
 
 class ItemDespawnTimer {
 
@@ -37,9 +36,14 @@ class ItemDespawnTimer {
                 else -> NamedTextColor.GREEN
             }
             return text("아이템 디스폰까지 약 ")
-                    .append(text(remainSeconds, NamedTextColor.LIGHT_PURPLE))
-                    .append(text("초 "))
-                    .append(text("(${lastDeathLocation.blockX}, ${lastDeathLocation.blockY}, ${lastDeathLocation.blockZ})", worldColor))
+                .append(text(remainSeconds, NamedTextColor.LIGHT_PURPLE))
+                .append(text("초 "))
+                .append(
+                    text(
+                        "(${lastDeathLocation.blockX}, ${lastDeathLocation.blockY}, ${lastDeathLocation.blockZ})",
+                        worldColor
+                    )
+                )
         }
 
     fun onDeath() {
@@ -75,35 +79,17 @@ class ItemDespawnTimer {
 
         if (player.world != lastDeathLocation.world || player.isDead) return
 
-        if (player.location.distance(lastDeathLocation) <= 1) {
+        val direction = Utils.getDirectionArrow(player, lastDeathLocation)
+
+        if (direction.distance <= 1) {
             player.playSound(player, Sound.ENTITY_PLAYER_LEVELUP, 10f, 1f)
             player.sendActionBar(text("아이템 수복 성공", NamedTextColor.GREEN))
             remainSeconds = 0
             return
         }
 
-        val direction = lastDeathLocation.clone().subtract(player.location).toVector()
-        var angle = player.eyeLocation.clone().setDirection(direction).yaw
-
-        if (angle < 0) {
-            angle += 360
-        }
-
-        angle -= player.location.yaw
-
-        if (angle < 0) {
-            angle += 360
-        }
-
-        var index = ((angle / 45) % 8).roundToInt()
-        if (index == 8) index = 0
-
-        val text = text("${"%.1f".format(lastDeathLocation.distance(player.location))}m ")
-                .append(text(ARROWS[index], if (index == 0) NamedTextColor.GREEN else NamedTextColor.RED))
+        val text = text("${"%.1f".format(direction.distance)}m ")
+            .append(text(direction.arrow, if (direction.index == 0) NamedTextColor.GREEN else NamedTextColor.RED))
         player.sendActionBar(text)
-    }
-
-    companion object {
-        private val ARROWS = listOf("↑", "↗", "→", "↘", "↓", "↙", "←", "↖")
     }
 }

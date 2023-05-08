@@ -3,6 +3,7 @@ package vg.h2o.dimibug
 import io.github.monun.kommand.StringType
 import io.github.monun.kommand.getValue
 import io.github.monun.kommand.kommand
+import io.github.monun.kommand.wrapper.Position2D
 import net.kyori.adventure.text.Component.empty
 import net.kyori.adventure.text.Component.text
 import net.kyori.adventure.text.format.NamedTextColor
@@ -12,6 +13,7 @@ import org.bukkit.Bukkit
 import org.bukkit.craftbukkit.v1_19_R3.entity.CraftPlayer
 import org.bukkit.entity.Player
 import org.bukkit.plugin.java.JavaPlugin
+import vg.h2o.dimibug.handlers.CompassHandler
 import vg.h2o.dimibug.handlers.ItemDespawnTimerHandler
 import vg.h2o.dimibug.handlers.PlayerNameHandler
 import vg.h2o.dimibug.listeners.PlayerListener
@@ -88,6 +90,33 @@ class DimiBug : JavaPlugin() {
                         )
 
                         PlayerNameHandler.rename(player, name)
+                    }
+                }
+            }
+
+            "compass" {
+
+                requires { isPlayer }
+
+                "delete" {
+                    executes {
+                        CompassHandler.delete(player)
+                    }
+                }
+
+                "player"("player" to player()) {
+                    executes {
+                        val player: Player by it
+
+                        CompassHandler.create(this.player, player)
+                    }
+                }
+
+                "position"("position" to position2D()) {
+                    executes {
+                        val position: Position2D by it
+
+                        CompassHandler.create(player, position)
                     }
                 }
             }

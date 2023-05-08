@@ -20,7 +20,6 @@ repositories {
 }
 
 dependencies {
-    implementation("com.google.auto.service:auto-service:1.0.1")
     compileOnly("io.github.monun:kommand-api:3.1.3")
 
     paperweight.paperDevBundle("1.19.4-R0.1-SNAPSHOT")
