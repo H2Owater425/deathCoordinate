@@ -77,16 +77,16 @@ class DimiBug : JavaPlugin() {
                         val name: String by it
 
                         sender.sendMessage(
-                            empty().append(text(player.name, NamedTextColor.GOLD))
-                                .append(text("의 이름을 "))
-                                .append(text(name, NamedTextColor.GREEN))
-                                .append(text("(으)로 바꿨습니다"))
+                                empty().append(text(player.name, NamedTextColor.GOLD))
+                                        .append(text("의 이름을 "))
+                                        .append(text(name, NamedTextColor.GREEN))
+                                        .append(text("(으)로 바꿨습니다"))
                         )
 
                         player.sendMessage(
-                            text("당신의 이름은 이제 ")
-                                .append(text(name, NamedTextColor.GREEN))
-                                .append(text("입니다"))
+                                text("당신의 이름은 이제 ")
+                                        .append(text(name, NamedTextColor.GREEN))
+                                        .append(text("입니다"))
                         )
 
                         PlayerNameHandler.rename(player, name)
@@ -94,13 +94,19 @@ class DimiBug : JavaPlugin() {
                 }
             }
 
-            "compass" {
+            "navigate" {
 
                 requires { isPlayer }
 
                 "delete" {
                     executes {
-                        CompassHandler.delete(player)
+                        val (message, color) = if (CompassHandler.delete(player)) {
+                            "내비게이션이 제거되었습니다." to NamedTextColor.GREEN
+                        } else {
+                            "내비게이션이 존재하지 않습니다." to NamedTextColor.RED
+                        }
+
+                        sender.sendMessage(text(message, color))
                     }
                 }
 
